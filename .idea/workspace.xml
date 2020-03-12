@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="9a6c8b9e-c1cd-408f-b8e3-113ffe0f96dc" name="Default Changelist" comment="" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="CodeStyleSettingsInfer">
+    <option name="done" value="true" />
+  </component>
+  <component name="ExternalProjectsData">
+    <projectState path="$PROJECT_DIR$">
+      <ProjectState />
+    </projectState>
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Interface" />
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="ProjectCodeStyleSettingsMigration">
+    <option name="version" value="1" />
+  </component>
+  <component name="ProjectId" id="1Z0kOFhOgfAvGS2KZfPEDdadmY9" />
+  <component name="ProjectViewState">
+    <option name="autoscrollFromSource" value="true" />
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showExcludedFiles" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="project.structure.last.edited" value="Modules" />
+    <property name="project.structure.proportion" value="0.0" />
+    <property name="project.structure.side.proportion" value="0.0" />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="9a6c8b9e-c1cd-408f-b8e3-113ffe0f96dc" name="Default Changelist" comment="" />
+      <created>1583983364623</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1583983364623</updated>
+    </task>
+    <servers />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="347" y="368" width="802" height="681" key="#Project_Structure" timestamp="1583983381997">
+      <screen x="0" y="0" width="2560" height="1414" />
+    </state>
+    <state x="347" y="368" width="802" height="681" key="#Project_Structure/0.0.2560.1414@0.0.2560.1414" timestamp="1583983381997" />
+    <state x="560" y="419" width="376" height="579" key="#com.intellij.ide.util.MemberChooser" timestamp="1583986933471">
+      <screen x="0" y="0" width="2560" height="1414" />
+    </state>
+    <state x="560" y="419" width="376" height="579" key="#com.intellij.ide.util.MemberChooser/0.0.2560.1414@0.0.2560.1414" timestamp="1583986933471" />
+  </component>
+</project>
