@@ -16,9 +16,12 @@ public class Main {
 
     for (CbtTest test : tests) {
       try {
+        System.out.println("Running test: " + test.getClass());
         test.run();
       } catch (Exception e) {
         e.printStackTrace();
+      } finally {
+        System.out.println("=====================================");
       }
     }
   }
