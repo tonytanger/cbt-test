@@ -18,5 +18,5 @@ dependencies {
 }
 
 application {
-    mainClassName = 'com.on.Main'
+    mainClassName = project.hasProperty("mainClass") ? getProperty("mainClass") : "NULL"
 }

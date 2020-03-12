@@ -13,9 +13,19 @@ public class DirectPathCbtTest extends CbtTest {
     super(projectId, instanceId, tableId);
   }
 
+  public static void main(String[] args) throws Exception {
+    if (!System.getenv("GOOGLE_CLOUD_ENABLE_DIRECT_PATH").equals("bigtable")) {
+      System.out.println("set env variable GOOGLE_CLOUD_ENABLE_DIRECT_PATH to bigtable");
+      System.exit(1);
+    }
+    String projectId = "directpath-prod-manual-testing";
+    String instanceId = "jihuncho-rls";
+    String tableId = "test-table";
+    new DirectPathCbtTest(projectId, instanceId, tableId + "2").run();
+  }
+
   @Override
   public void before() {
-    System.getenv().put("GOOGLE_CLOUD_ENABLE_DIRECT_PATH", "bigtable");
     System.setProperty(
         "bigtable.directpath-data-endpoint", "directpath-bigtable.googleapis.com:443");
     System.setProperty("bigtable.directpath-admin-endpoint", "bigtableadmin.googleapis.com:443");
@@ -23,7 +33,6 @@ public class DirectPathCbtTest extends CbtTest {
 
   @Override
   public void after() {
-    System.getenv().remove("GOOGLE_CLOUD_ENABLE_DIRECT_PATH");
     System.clearProperty("bigtable.directpath-data-endpoint");
     System.clearProperty("bigtable.directpath-admin-endpoint");
   }

@@ -11,6 +11,17 @@ public class NormalCbtTest extends CbtTest {
     super(projectId, instanceId, tableId);
   }
 
+  public static void main(String[] args) throws Exception {
+    if (System.getenv("GOOGLE_CLOUD_ENABLE_DIRECT_PATH").equals("bigtable")) {
+      System.out.println("env variable GOOGLE_CLOUD_ENABLE_DIRECT_PATH shouldn't be bigtable");
+      System.exit(1);
+    }
+    String projectId = "directpath-prod-manual-testing";
+    String instanceId = "jihuncho-rls";
+    String tableId = "test-table";
+    new NormalCbtTest(projectId, instanceId, tableId + "2").run();
+  }
+
   @Override
   public BigtableDataClient dataClient() throws Exception {
     BigtableDataSettings settings =
