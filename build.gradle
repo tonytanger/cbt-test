@@ -27,6 +27,7 @@ dependencies {
     implementation group: 'io.grpc', name: 'grpc-core', version: '1.29.0'
     implementation group: 'io.grpc', name: 'grpc-alts', version: '1.29.0'
     runtime group: 'io.grpc', name: 'grpc-grpclb', version: '1.29.0'
+    runtime group: 'com.google.cloud', name: 'google-cloud-logging-logback', version: '0.80.0-alpha'
 }
 
 protobuf {

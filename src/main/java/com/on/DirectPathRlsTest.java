@@ -20,6 +20,8 @@ public class DirectPathRlsTest {
             .disableServiceConfigLookUp()
             .build();
 
+    System.out.println("Channel state: " + channel.getState(true));
+
     RouteLookupResponse response =
         RouteLookupServiceGrpc
             .newBlockingStub(channel)
@@ -47,6 +49,7 @@ public class DirectPathRlsTest {
     ImmutableMap<String, Object> loadBalancingConfig =
         ImmutableMap.of("loadBalancingConfig", ImmutableList.of(grpcLbPolicy));
 
+    System.out.println("Service Config: " + loadBalancingConfig);
     return loadBalancingConfig;
   }
 }
