@@ -28,9 +28,9 @@ public class DirectPathRlsTest {
             .routeLookup(
                 RouteLookupRequest.newBuilder()
                     .setTargetType("grpc")
-                    .setPath("google.bigtable.v2.Bigtable/ReadRows")
-                    .setServer("directpath-bigtable.googleapis.com:443")
-                    .putKeyMap("x-goog-request-params", "name=projects/directpath-prod-manual-testing/instances/jihuncho-rls/tables/test-table")
+                    .setPath("/google.bigtable.v2.Bigtable/ReadRows")
+                    .setServer("bigtable.googleapis.com")
+                    .putKeyMap("x-goog-request-params", "table_name=projects/directpath-prod-manual-testing/instances/jihuncho-rls/tables/test-table&app_profile=default")
                     .build());
 
     System.out.println("Response: " + response);
