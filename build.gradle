@@ -23,18 +23,20 @@ repositories {
     mavenCentral()
 }
 
+def grpcVer = '1.30.2'
+
 dependencies {
-    implementation group: 'io.grpc', name: 'grpc-core', version: '1.29.0'
-    implementation group: 'io.grpc', name: 'grpc-alts', version: '1.29.0'
+    implementation group: 'io.grpc', name: 'grpc-core', version: "${grpcVer}"
+    implementation group: 'io.grpc', name: 'grpc-alts', version: "${grpcVer}"
     implementation group: 'org.apache.tomcat', name: 'annotations-api', version: '6.0.53'
-    runtime group: 'io.grpc', name: 'grpc-grpclb', version: '1.29.0'
+    runtime group: 'io.grpc', name: 'grpc-grpclb', version: "${grpcVer}"
     runtime group: 'com.google.cloud', name: 'google-cloud-logging-logback', version: '0.80.0-alpha'
 }
 
 protobuf {
     protoc { artifact = "com.google.protobuf:protoc:3.12.0" }
     plugins {
-        grpc { artifact = "io.grpc:protoc-gen-grpc-java:1.29.0" }
+        grpc { artifact = "io.grpc:protoc-gen-grpc-java:${grpcVer}" }
     }
     generateProtoTasks {
         all()*.plugins { grpc {} }
