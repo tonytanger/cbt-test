@@ -19,7 +19,7 @@ public class DirectPathCbtTest extends CbtTest {
       System.exit(1);
     }
     String projectId = "directpath-prod-manual-testing";
-    String instanceId = "jihuncho-rls";
+    String instanceId = "zdapeng-rls";
     String tableId = "test-table";
     new DirectPathCbtTest(projectId, instanceId, tableId + "2").run();
   }
@@ -27,8 +27,8 @@ public class DirectPathCbtTest extends CbtTest {
   @Override
   public void before() {
     System.setProperty(
-        "bigtable.directpath-data-endpoint", "directpath-bigtable.googleapis.com:443");
-    System.setProperty("bigtable.directpath-admin-endpoint", "bigtableadmin.googleapis.com:443");
+        "bigtable.directpath-data-endpoint", "testdirectpath-bigtable.googleapis.com:443");
+    System.setProperty("bigtable.directpath-admin-endpoint", "test-bigtableadmin.googleapis.com:443");
   }
 
   @Override
