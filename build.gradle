@@ -19,4 +19,5 @@ dependencies {
 
 application {
     mainClassName = project.hasProperty("mainClass") ? getProperty("mainClass") : "NULL"
+    applicationDefaultJvmArgs += '-Djava.util.logging.config.file=logging.properties'
 }
