@@ -7,7 +7,6 @@ import com.google.cloud.bigtable.admin.v2.BigtableTableAdminClient;
 import com.google.cloud.bigtable.admin.v2.BigtableTableAdminSettings;
 import com.google.cloud.bigtable.data.v2.BigtableDataClient;
 import com.google.cloud.bigtable.data.v2.BigtableDataSettings;
-import com.google.cloud.bigtable.data.v2.stub.EnhancedBigtableStubSettings;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import javax.annotation.Nullable;
@@ -88,7 +87,7 @@ public class DirectPathCbtTest extends CbtTest {
         "serviceName");
     ImmutableMap<String, ?> lbConfig = ImmutableMap.of(
         "rls-experimental", rlsConfig);
-    return ImmutableMap.of("loadBalancingConfig", lbConfig);
+    return ImmutableMap.of("loadBalancingConfig", ImmutableList.of(lbConfig));
   }
 
   private static ImmutableMap<String, ?> getLookupConfig(@Nullable String defaultTarget) {
