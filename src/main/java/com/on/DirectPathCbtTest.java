@@ -113,7 +113,7 @@ public class DirectPathCbtTest extends CbtTest {
                     ImmutableList.of("google-cloud-resource-prefix"),
                     "optional",
                     true)));
-    return new ImmutableMap.Builder<String, Object>()
+    ImmutableMap.Builder<String, Object> builder = new ImmutableMap.Builder<String, Object>()
         .put("grpcKeyBuilders", grpcKeyBuilders)
         .put("lookupService", "test-bigtablerls.sandbox.googleapis.com")
         .put("lookupServiceTimeout", 2D)
@@ -125,8 +125,10 @@ public class DirectPathCbtTest extends CbtTest {
                 "test-bigtable.sandbox.googleapis.com",
                 "testdirectpath-bigtable.sandbox.googleapis.com"))
         .put("cacheSizeBytes", 1000D)
-        .put("defaultTarget", defaultTarget)
-        .put("requestProcessingStrategy", "SYNC_LOOKUP_DEFAULT_TARGET_ON_ERROR")
-        .build();
+        .put("requestProcessingStrategy", "SYNC_LOOKUP_DEFAULT_TARGET_ON_ERROR");
+    if (defaultTarget != null) {
+      builder.put("defaultTarget", defaultTarget);
+    }
+    return builder.build();
   }
 }
