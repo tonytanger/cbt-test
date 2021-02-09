@@ -82,7 +82,7 @@ public class DirectPathCbtTest extends CbtTest {
         "routeLookupConfig",
         getLookupConfig(defaultTarget),
         "childPolicy",
-        grpcLbPolicy,
+        ImmutableList.of(grpcLbPolicy),
         "childPolicyConfigTargetFieldName",
         "serviceName");
     ImmutableMap<String, ?> lbConfig = ImmutableMap.of(
