@@ -20,5 +20,5 @@ dependencies {
 
 application {
     mainClassName = project.hasProperty("mainClass") ? getProperty("mainClass") : "NULL"
-    applicationDefaultJvmArgs += ['-Djava.util.logging.config.file=logging.properties', '-Djava.net.preferIPv6Addresses=true']
+    applicationDefaultJvmArgs += ['-Djava.util.logging.config.file=logging.properties', '-Djava.net.preferIPv6Addresses=true', '-Dio.grpc.rls.CachingRlsLbClient.enable_oobchannel_directpath=true']
 }

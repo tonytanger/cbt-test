@@ -58,6 +58,7 @@ public class DirectPathCbtTest extends CbtTest {
         .setInstanceId(instanceId)
         .setCredentialsProvider(
             FixedCredentialsProvider.create(ComputeEngineCredentials.create()));
+    System.out.println("Client Settings: " + settingsBuilder.build());
     return BigtableDataClient.create(settingsBuilder.build());
   }
 
