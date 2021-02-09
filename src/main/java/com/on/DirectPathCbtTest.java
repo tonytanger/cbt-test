@@ -113,7 +113,7 @@ public class DirectPathCbtTest extends CbtTest {
                     "optional",
                     true)));
     ImmutableMap.Builder<String, Object> builder = new ImmutableMap.Builder<String, Object>()
-        .put("grpcKeyBuilders", grpcKeyBuilders)
+        .put("grpcKeyBuilders", ImmutableList.of(grpcKeyBuilders))
         .put("lookupService", "test-bigtablerls.sandbox.googleapis.com")
         .put("lookupServiceTimeout", 2D)
         .put("maxAge", 300D)
