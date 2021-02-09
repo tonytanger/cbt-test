@@ -1,4 +1,9 @@
-.idea/
+.idea/gradle.xml
+.idea/vcs.xml
+.idea/workspace.xml
+.idea/*
+.idea
+
 *.iml
 *.ipr
 *.iws
@@ -8,3 +13,5 @@ gradle.properties
 .gradle
 local.properties
 out
+/.idea/
+/.gradle/
