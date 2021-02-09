@@ -1,11 +1,16 @@
 package com.on;
 
 import com.google.api.gax.core.FixedCredentialsProvider;
+import com.google.api.gax.grpc.InstantiatingGrpcChannelProvider;
 import com.google.auth.oauth2.ComputeEngineCredentials;
 import com.google.cloud.bigtable.admin.v2.BigtableTableAdminClient;
 import com.google.cloud.bigtable.admin.v2.BigtableTableAdminSettings;
 import com.google.cloud.bigtable.data.v2.BigtableDataClient;
 import com.google.cloud.bigtable.data.v2.BigtableDataSettings;
+import com.google.cloud.bigtable.data.v2.stub.EnhancedBigtableStubSettings;
+import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableMap;
+import javax.annotation.Nullable;
 
 public class DirectPathCbtTest extends CbtTest {
 
@@ -39,14 +44,21 @@ public class DirectPathCbtTest extends CbtTest {
 
   @Override
   public BigtableDataClient dataClient() throws Exception {
-    BigtableDataSettings settings =
-        BigtableDataSettings.newBuilder()
-            .setProjectId(projectId)
-            .setInstanceId(instanceId)
-            .setCredentialsProvider(
-                FixedCredentialsProvider.create(ComputeEngineCredentials.create()))
-            .build();
-    return BigtableDataClient.create(settings);
+    BigtableDataSettings.Builder settingsBuilder = BigtableDataSettings.newBuilder();
+    InstantiatingGrpcChannelProvider transportProvider =
+        (InstantiatingGrpcChannelProvider)
+            settingsBuilder.stubSettings().getTransportChannelProvider();
+    transportProvider = transportProvider.toBuilder()
+        .setDirectPathServiceConfig(getRlsServiceConfig(null))
+        .build();
+
+    settingsBuilder
+        .stubSettings().setTransportChannelProvider(transportProvider)
+        .setProjectId(projectId)
+        .setInstanceId(instanceId)
+        .setCredentialsProvider(
+            FixedCredentialsProvider.create(ComputeEngineCredentials.create()));
+    return BigtableDataClient.create(settingsBuilder.build());
   }
 
   @Override
@@ -59,5 +71,61 @@ public class DirectPathCbtTest extends CbtTest {
                 FixedCredentialsProvider.create(ComputeEngineCredentials.create()))
             .build();
     return BigtableTableAdminClient.create(adminSettings);
+  }
+
+  private static ImmutableMap<String, ?> getRlsServiceConfig(@Nullable String defaultTarget) {
+    ImmutableMap<String, ?> pickFirstStrategy = ImmutableMap.of("pick_first", ImmutableMap.of());
+    ImmutableMap<String, ?> childPolicy =
+        ImmutableMap.of("childPolicy", ImmutableList.of(pickFirstStrategy));
+    ImmutableMap<String, ?> grpcLbPolicy = ImmutableMap.of("grpclb", childPolicy);
+    ImmutableMap<String, ?> rlsConfig = ImmutableMap.of(
+        "routeLookupConfig",
+        getLookupConfig(defaultTarget),
+        "childPolicy",
+        grpcLbPolicy,
+        "childPolicyConfigTargetFieldName",
+        "serviceName");
+    ImmutableMap<String, ?> lbConfig = ImmutableMap.of(
+        "rls-experimental", rlsConfig);
+    return ImmutableMap.of("loadBalancingConfig", lbConfig);
+  }
+
+  private static ImmutableMap<String, ?> getLookupConfig(@Nullable String defaultTarget) {
+    ImmutableMap<String, ?> grpcKeyBuilders =
+        ImmutableMap.of(
+            "names",
+            ImmutableList.of(
+                ImmutableMap.of("service", "google.bigtable.v2.Bigtable")),
+            "headers",
+            ImmutableList.of(
+                ImmutableMap.of(
+                    "key",
+                    "x-goog-request-params",
+                    "names",
+                    ImmutableList.of("x-goog-request-params"),
+                    "optional",
+                    true),
+                ImmutableMap.of(
+                    "key",
+                    "google-cloud-resource-prefix",
+                    "names",
+                    ImmutableList.of("google-cloud-resource-prefix"),
+                    "optional",
+                    true)));
+    return new ImmutableMap.Builder<String, Object>()
+        .put("grpcKeyBuilders", grpcKeyBuilders)
+        .put("lookupService", "test-bigtablerls.sandbox.googleapis.com")
+        .put("lookupServiceTimeout", 2D)
+        .put("maxAge", 300D)
+        .put("staleAge", 240D)
+        .put(
+            "validTargets",
+            ImmutableList.of(
+                "test-bigtable.sandbox.googleapis.com",
+                "testdirectpath-bigtable.sandbox.googleapis.com"))
+        .put("cacheSizeBytes", 1000D)
+        .put("defaultTarget", defaultTarget)
+        .put("requestProcessingStrategy", "SYNC_LOOKUP_DEFAULT_TARGET_ON_ERROR")
+        .build();
   }
 }
