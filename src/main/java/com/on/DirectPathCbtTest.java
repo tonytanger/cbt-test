@@ -23,16 +23,16 @@ public class DirectPathCbtTest extends CbtTest {
       System.exit(1);
     }
     String projectId = "directpath-prod-manual-testing";
-    String instanceId = "zdapeng-rls";
+    String instanceId = "blackbox-us-central1-b";
     String tableId = "test-table";
     new DirectPathCbtTest(projectId, instanceId, tableId + "2").run();
   }
 
   @Override
   public void before() {
-    System.setProperty(
-        "bigtable.directpath-data-endpoint", "testdirectpath-bigtable.googleapis.com:443");
-    System.setProperty("bigtable.directpath-admin-endpoint", "test-bigtableadmin.googleapis.com:443");
+    //System.setProperty(
+    //    "bigtable.directpath-data-endpoint", "test-bigtable.googleapis.com:443");
+    //System.setProperty("bigtable.directpath-admin-endpoint", "test-bigtableadmin.googleapis.com:443");
   }
 
   @Override
@@ -46,7 +46,8 @@ public class DirectPathCbtTest extends CbtTest {
     BigtableDataSettings.Builder settingsBuilder = BigtableDataSettings.newBuilder();
     InstantiatingGrpcChannelProvider transportProvider =
         (InstantiatingGrpcChannelProvider)
-            settingsBuilder.stubSettings().getTransportChannelProvider();
+            settingsBuilder.stubSettings().setEndpoint("test-bigtable.sandbox.googleapis.com:443")
+                .getTransportChannelProvider();
     transportProvider = transportProvider.toBuilder()
         .setDirectPathServiceConfig(getRlsServiceConfig(null))
         .build();
@@ -63,14 +64,14 @@ public class DirectPathCbtTest extends CbtTest {
 
   @Override
   public BigtableTableAdminClient adminClient() throws Exception {
-    BigtableTableAdminSettings adminSettings =
+    BigtableTableAdminSettings.Builder adminSettingsBuilder =
         BigtableTableAdminSettings.newBuilder()
             .setProjectId(projectId)
             .setInstanceId(instanceId)
             .setCredentialsProvider(
-                FixedCredentialsProvider.create(ComputeEngineCredentials.create()))
-            .build();
-    return BigtableTableAdminClient.create(adminSettings);
+                FixedCredentialsProvider.create(ComputeEngineCredentials.create()));
+        adminSettingsBuilder.stubSettings().setEndpoint("test-bigtableadmin.sandbox.googleapis.com:443");
+    return BigtableTableAdminClient.create(adminSettingsBuilder.build());
   }
 
   private static ImmutableMap<String, ?> getRlsServiceConfig(@Nullable String defaultTarget) {
@@ -121,8 +122,8 @@ public class DirectPathCbtTest extends CbtTest {
         .put(
             "validTargets",
             ImmutableList.of(
-                "test-bigtable.sandbox.googleapis.com",
-                "testdirectpath-bigtable.sandbox.googleapis.com"))
+                "bigtable.sandbox.googleapis.com",
+                "directpath-bigtable.sandbox.googleapis.com"))
         .put("cacheSizeBytes", 1000D)
         .put("requestProcessingStrategy", "SYNC_LOOKUP_DEFAULT_TARGET_ON_ERROR");
     if (defaultTarget != null) {
