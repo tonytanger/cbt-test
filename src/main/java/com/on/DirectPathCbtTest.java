@@ -18,28 +18,12 @@ public class DirectPathCbtTest extends CbtTest {
   }
 
   public static void main(String[] args) throws Exception {
-    if (!System.getenv("GOOGLE_CLOUD_ENABLE_DIRECT_PATH").equals("bigtable")) {
-      System.out.println("set env variable GOOGLE_CLOUD_ENABLE_DIRECT_PATH to bigtable");
-      System.exit(1);
-    }
-    String projectId = "directpath-prod-manual-testing";
-    String instanceId = "blackbox-us-central1-b";
+    String projectId = System.getenv("PROJECT");
+    String instanceId = "mycluster";
     String tableId = "test-table";
     new DirectPathCbtTest(projectId, instanceId, tableId + "2").run();
   }
 
-  @Override
-  public void before() {
-    //System.setProperty(
-    //    "bigtable.directpath-data-endpoint", "test-bigtable.googleapis.com:443");
-    //System.setProperty("bigtable.directpath-admin-endpoint", "test-bigtableadmin.googleapis.com:443");
-  }
-
-  @Override
-  public void after() {
-    System.clearProperty("bigtable.directpath-data-endpoint");
-    System.clearProperty("bigtable.directpath-admin-endpoint");
-  }
 
   @Override
   public BigtableDataClient dataClient() throws Exception {
@@ -112,7 +96,8 @@ public class DirectPathCbtTest extends CbtTest {
                     "names",
                     ImmutableList.of("google-cloud-resource-prefix"),
                     "optional",
-                    true)));
+                    true)),
+	    "extraKeys", ImmutableMap.of("host", "server", "service","service","method","method"));
     ImmutableMap.Builder<String, Object> builder = new ImmutableMap.Builder<String, Object>()
         .put("grpcKeyBuilders", ImmutableList.of(grpcKeyBuilders))
         .put("lookupService", "test-bigtablerls.sandbox.googleapis.com")
@@ -122,8 +107,10 @@ public class DirectPathCbtTest extends CbtTest {
         .put(
             "validTargets",
             ImmutableList.of(
-                "bigtable.sandbox.googleapis.com",
-                "directpath-bigtable.sandbox.googleapis.com"))
+		 "us-central1-test-bigtable.sandbox.googleapis.com",
+		    "europe-north1-test-bigtable.sandbox.googleapis.com",
+		    "us-east1-test-bigtable.sandbox.googleapis.com",
+                "test-bigtable.sandbox.googleapis.com"))
         .put("cacheSizeBytes", 1000D)
         .put("requestProcessingStrategy", "SYNC_LOOKUP_DEFAULT_TARGET_ON_ERROR");
     if (defaultTarget != null) {
