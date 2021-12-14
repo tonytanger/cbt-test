@@ -18,6 +18,10 @@ public class DirectPathCbtTest extends CbtTest {
   }
 
   public static void main(String[] args) throws Exception {
+    if(System.getenv("PROJECT") == null) {
+	    System.out.println("PROJECT environment variable is not set.");
+	    System.exit(1);
+    }
     String projectId = System.getenv("PROJECT");
     String instanceId = "mycluster";
     String tableId = "test-table";
